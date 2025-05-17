@@ -168,6 +168,7 @@ for generation in range(GENERATIONS):
 
     next_generation = elites[:]
     while len(next_generation) < POPULATION_SIZE:
+        #還沒把菁英從population拿掉
         parent1 = roulette_selection(population, fitness_cache)
         parent2 = roulette_selection(population, fitness_cache)
         child = crossover(parent1, parent2)
