@@ -1,6 +1,6 @@
 import math
 def compute_fitness(num_ips, triggered_techniques, tech_score_table, individual,
-                    w1=0.3, w2=0.5, w3=0.2):
+                    w1=0.2, w2=0.5, w3=0.3):
     MAX_IPS = 105
     MAX_DEPTH_SCORE = sum((v ** 2 for v in tech_score_table.values()))
 
@@ -9,8 +9,8 @@ def compute_fitness(num_ips, triggered_techniques, tech_score_table, individual,
     num_vulns = sum(individual)
     vuln_ratio = num_vulns / len(individual)
 
-    scale = 10   # 可以根據實驗調成10~20
-    center = 6 / len(individual)  # 期望最佳開啟數（這裡是 6 個漏洞）
+    scale = 15   # 可以根據實驗調成10~20
+    center = 4 / len(individual)  # 期望最佳開啟數（這裡是 4 個漏洞）
 
     vuln_penalty = 1 / (1 + math.exp(-scale * (vuln_ratio - center)))
 
