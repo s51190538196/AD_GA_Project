@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # 讀取最新上傳的資料
-fitness_df = pd.read_csv("output/fitness_log.csv")
+fitness_df = pd.read_csv("output/fitness_log_traditional.csv")
 random_df = pd.read_csv("output/random_sample_results.csv")
 
 # 計算 Random 每代的平均與最大 fitness
@@ -18,11 +18,11 @@ plt.plot(random_stats["generation"], random_stats["mean"], label="Average Fitnes
 
 plt.xlabel("Generation")
 plt.ylabel("Fitness")
-plt.title("GA vs. Random Sampling (New Data)")
+plt.title("GA vs. Random Sampling")
 plt.legend(loc='center left', bbox_to_anchor=(1.02, 0.5), frameon=True)
 plt.grid(True)
 max_gen = int(max(fitness_df["generation"].max(), random_stats["generation"].max())) + 1
-plt.xticks(ticks=range(max_gen))
+plt.xticks(ticks=range(0, max_gen, 5))
 
 plt.tight_layout()
 

@@ -8,11 +8,11 @@ import pandas as pd
 from compute_fitness import compute_fitness
 from simulate_attack import simulate_attack
 
-NUM_VULNS = 15
+NUM_VULNS = 13
 POPULATION_SIZE = 10
-GENERATIONS = 26
+GENERATIONS = 25
 SAMPLE_SIZE = 300
-MAIN_ATTACKER = "TargetedAttacker2"
+MAIN_ATTACKER = "TargetedAttacker"
 OUTPUT_DIR = "output"
 OUTPUT_CSV = f"{OUTPUT_DIR}/random_sample_results.csv"
 
