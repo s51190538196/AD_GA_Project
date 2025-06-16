@@ -82,7 +82,10 @@ def compute_bias_map(elites, triggered_by_vuln_records):
     bias_map = []
     for i in range(NUM_VULNS):
         pi = sum(ind[i] for ind in elites) / len(elites)
-        bias = pi * contrib_ratio[i]
+        if pi == 0:
+            bias = 0.5  # ➤ 完全沒出現
+        else:
+            bias = pi * contrib_ratio[i]  # ➤ 有出現，根據貢獻程度調整
         bias_map.append(bias)
     return bias_map
 
