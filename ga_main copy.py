@@ -1,6 +1,7 @@
 import json
 import random
 import time
+import pandas as pd
 from compute_fitness import compute_fitness
 from simulate_attack import simulate_attack
 from fitness_logger import init_log, log_fitness
@@ -17,8 +18,8 @@ NUM_VULNS = 13
 MAIN_ATTACKER = "TargetedAttacker"
 
 random_seed = int(time.time())
-random.seed(random_seed)
-#random.seed(1750239945) #1750239945 1748251999 1750239504  
+#random.seed(random_seed)
+random.seed(1750239945) #1750239945 1748251999 1750239504  
 print(f"[INFO] Random Seed: {random_seed}")
 
 # 載入資料
@@ -33,7 +34,7 @@ with open("data/tech_score_table.json") as f:
 
 # Early Stopper
 class EarlyStopper:
-    def __init__(self, patience=5, min_delta=0.001):
+    def __init__(self, patience=10, min_delta=0.001):
         self.patience = patience
         self.min_delta = min_delta
         self.counter = 0
@@ -119,6 +120,17 @@ bias_map = [0.5 for _ in range(NUM_VULNS)]
 fitness_cache = {}
 early_stopper = EarlyStopper(patience=10, min_delta=0.001)
 
+# 偏好 TTP 對應的漏洞 index（你提供的對應關係）
+PREFERRED_TTP_TO_VULNS = {
+    "T1558.003": {1},
+    "T1558.004": {2, 12},
+    "T1484.002": {5, 9, 10},
+    "T1556.002": {12},
+}
+PREFERRED_TTPS = set(PREFERRED_TTP_TO_VULNS.keys())
+# 每代的統計記錄
+ttp_hit_stats = []
+
 population = generate_population()
 
 for generation in range(GENERATIONS):
@@ -147,6 +159,34 @@ for generation in range(GENERATIONS):
     print(f"Gen {generation}: Max Fitness = {max_fitness:.4f}, Avg = {avg_fitness:.4f}, Enabled Vulns = {enabled_vulns}")
     print(f"Gap: {max_fitness - avg_fitness:.4f}")
 
+     # === [最佳個體偏好 TTP 命中統計] ===
+    best_individual = elites[0]
+    enabled_vulns = {i for i, bit in enumerate(best_individual) if bit == 1}
+
+    # 計算命中的 TTP 數（偏好 TTP 中，有對應漏洞被啟用者）
+    hit_ttps = set()
+    for ttp, vuln_indices in PREFERRED_TTP_TO_VULNS.items():
+        if enabled_vulns & vuln_indices:
+            hit_ttps.add(ttp)
+
+    target_ttps_total = len(PREFERRED_TTPS)
+    target_ttps_hit = len(hit_ttps)
+    num_enabled = len(enabled_vulns)
+
+    ttp_hit_ratio = target_ttps_hit / target_ttps_total if target_ttps_total > 0 else 0
+    ttp_hit_efficiency = target_ttps_hit / num_enabled if num_enabled > 0 else 0
+
+    # 印出資訊供參考
+    print(f"Gen {generation}: TTP Hit Ratio = {ttp_hit_ratio:.2f}, Efficiency = {ttp_hit_efficiency:.2f}")
+
+    # 紀錄進表格
+    ttp_hit_stats.append({
+        "generation": generation,
+        "ttp_hit_ratio": ttp_hit_ratio,
+        "enabled_vulns": num_enabled,
+        "ttp_hit_efficiency": ttp_hit_efficiency
+    })
+
     if ((early_stopper.check(max_fitness)) or (max_fitness - avg_fitness < 0.025)):
         print(f"[EARLY STOP] Triggered at generation {generation} due to no improvement")
         break
@@ -167,6 +207,8 @@ for generation in range(GENERATIONS):
         next_generation.append(child)
 
     population = next_generation
+
+pd.DataFrame(ttp_hit_stats).to_csv("output/ttp_hit_stats.csv", index=False)
 
 print("\nFinal Generation Population:")
 for i, individual in enumerate(population):

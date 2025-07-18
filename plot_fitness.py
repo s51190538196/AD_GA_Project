@@ -19,6 +19,7 @@ def plot_fitness_curve(csv_path, output_path="fitness_plot.png"):
     plt.xlabel("Generation")
     plt.ylabel("Fitness")
     plt.title("Fitness Convergence Curve")
+    plt.xticks(ticks=generations[::2])
     plt.legend()
     plt.grid(True)
     plt.savefig(output_path)

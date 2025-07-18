@@ -9,9 +9,8 @@ from compute_fitness import compute_fitness
 from simulate_attack import simulate_attack
 
 NUM_VULNS = 13
-POPULATION_SIZE = 10
-GENERATIONS = 25
-SAMPLE_SIZE = 300
+POPULATION_SIZE = 15
+GENERATIONS = 16
 MAIN_ATTACKER = "TargetedAttacker"
 OUTPUT_DIR = "output"
 OUTPUT_CSV = f"{OUTPUT_DIR}/random_sample_results.csv"
@@ -35,8 +34,8 @@ def generate_individual():
     return individual
 
 random_seed = int(time.time())
-#random.seed(random_seed)
-random.seed(1748335351) #1748267247
+random.seed(random_seed)
+#random.seed(1748335351) #1748267247
 
 results = []
 for generation in range(GENERATIONS):
@@ -62,5 +61,3 @@ with open(OUTPUT_CSV, "w", newline='') as f:
 )
     writer.writeheader()
     writer.writerows(results)
-
-print(f"[DONE] Saved {SAMPLE_SIZE} samples to {OUTPUT_CSV}")
