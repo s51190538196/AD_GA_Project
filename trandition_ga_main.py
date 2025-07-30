@@ -16,9 +16,8 @@ NUM_VULNS = 13
 MAIN_ATTACKER = "TargetedAttacker"
 
 random_seed = int(time.time())
-#random.seed(random_seed)
-random.seed(1748335351) #1748251999 1748335351 1748944989 1748961040 1748945899 1748964033 1748964084 1748964120 1748964154 1748964172
-print(f"[INFO] Random Seed: {random_seed}")
+random.seed(random_seed)
+random.seed(1748335351)
 
 # 載入資料
 with open("data/attacker_profiles.json") as f:

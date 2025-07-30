@@ -35,7 +35,7 @@ def generate_individual():
 
 random_seed = int(time.time())
 random.seed(random_seed)
-#random.seed(1748335351) #1748267247
+random.seed(1748335351)
 
 results = []
 for generation in range(GENERATIONS):
@@ -50,7 +50,7 @@ for generation in range(GENERATIONS):
             "triggered_techniques": len(result['triggered_techniques']),
             "num_vulns": sum(ind)
         })
-        # ✅ 如果是最後一代就印出該個體的基因（哪幾個漏洞被打開）
+        # 如果是最後一代就印出該個體的基因（哪幾個漏洞被打開）
         if generation == GENERATIONS - 1:
             enabled = [idx for idx, bit in enumerate(ind) if bit == 1]
             print(f"[GEN {generation}] Individual: {ind} → Enabled vulns: {enabled}")

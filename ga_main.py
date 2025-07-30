@@ -16,10 +16,10 @@ EMA_ALPHA = 0.4
 NUM_VULNS = 13
 MAIN_ATTACKER = "TargetedAttacker"
 
-random_seed = int(time.time())
-random.seed(random_seed)
-#random.seed(1750239945) #1750239945 1748251999 1750239504  
-print(f"[INFO] Random Seed: {random_seed}")
+#random_seed = int(time.time())
+#random.seed(random_seed)
+random.seed(1750239945)
+
 
 # 載入資料
 with open("data/attacker_profiles.json") as f:
@@ -83,9 +83,9 @@ def compute_bias_map(elites, triggered_by_vuln_records):
     for i in range(NUM_VULNS):
         pi = sum(ind[i] for ind in elites) / len(elites)
         if pi == 0:
-            bias = 0.5  # ➤ 完全沒出現
+            bias = 0.5
         else:
-            bias = pi * contrib_ratio[i]  # ➤ 有出現，根據貢獻程度調整
+            bias = pi * contrib_ratio[i]
         bias_map.append(bias)
     return bias_map
 
@@ -154,12 +154,10 @@ for generation in range(GENERATIONS):
     bias_map = compute_bias_map(elites, elite_triggers)
 
     next_generation = elites[:]
-    #non_elites = [ind for ind in population if ind not in elites]
+
 
     while len(next_generation) < POPULATION_SIZE:
-        #還沒把菁英從population拿掉
-        #parent1 = roulette_selection(non_elites, fitness_cache)
-        #parent2 = roulette_selection(non_elites, fitness_cache)
+
         parent1 = roulette_selection(population, fitness_cache)
         parent2 = roulette_selection(population, fitness_cache)
         child = crossover(parent1, parent2)

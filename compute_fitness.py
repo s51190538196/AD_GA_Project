@@ -20,9 +20,7 @@ def compute_fitness(num_ips, triggered_techniques, tech_score_table, individual,
     normalized_depth = depth_score / math.log(1 + MAX_DEPTH_SCORE)
     # --- IP 數也做邊際遞減收益 ---
     normalized_ips = math.log(1 + num_ips) / math.log(1 + MAX_IPS)
-    #normalized_ips = num_ips / MAX_IPS
-    #normalized_depth = depth_score / MAX_DEPTH_SCORE
-    #normalized_vulns = sum(individual) / len(individual)
+    
 
     fitness = (
         w1 * normalized_ips +
