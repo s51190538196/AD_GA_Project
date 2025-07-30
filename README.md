@@ -7,7 +7,7 @@ a system designed to optimize Active Directory (AD) honeypot configurations usin
 Traditional honeypots often rely on static configurations, which may fail to attract adversaries once their interests shift.  
 AVCF addresses this by dynamically adjusting vulnerability combinations to maximize **attacker engagement depth** and **diversity of adversarial behavior**.
 
-![Workflow of Proposed Framework](framework_workflow.png)
+![Workflow of Proposed Framework](frame_workflow.png)
 
 ## 🔧 Features
  **Genetic Algorithm Optimization**
