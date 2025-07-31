@@ -23,8 +23,6 @@ AVCF addresses this by dynamically adjusting vulnerability combinations to maxim
 
 ## 🏗️ Project Structure
 
-## 📁 AD_GA_Project
-
  **compute_fitness.py** — Fitness function module  
  **simulate_attack.py** — Attacker module simulation  
  **ga_main.py** — Main GA implementation  
@@ -66,6 +64,8 @@ AVCF addresses this by dynamically adjusting vulnerability combinations to maxim
   Results will be saved in the /output directory.
 
 ## 📊 Example Results
-  - GA vs Random Sampling
-    
-  - Bias-Guided GA vs Traditional GA
+  - # GA vs Random Sampling
+    ![GA vs Random Sampling](output/ga_vs_random.png)
+  - # Bias-Guided GA vs Traditional GA
+    ![Bias-Guided GA vs Traditional GA](output/compare_Bias-guide_GA_vs_Traditional_GA.png)
+  
